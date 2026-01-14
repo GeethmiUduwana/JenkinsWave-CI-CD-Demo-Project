@@ -17,10 +17,7 @@ pipeline {
         }
 
         stage('Run Container') {
-            steps {
-                echo ' Running Docker container...'
-                bat 'docker run -d -p 8085:80 jenkinswave'
-            }
+            bat 'docker run -d -p 8086:80 jenkinswave'  
         }
     }
 }
