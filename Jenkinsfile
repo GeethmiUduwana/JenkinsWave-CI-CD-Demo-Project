@@ -2,32 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repo') {
+        stage('Checkout') {
             steps {
-                echo '📥 Cloning repository...'
+                echo ' Cloning repository...'
+                git url: 'https://github.com/GeethmiUduwana/JenkinsWave-CI-CD-Demo-Project.git', branch: 'main'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t jenkinswave:latest .'
+                echo ' Building Docker image...'
+                bat 'docker build -t jenkinswave .'
             }
         }
 
         stage('Run Container') {
             steps {
-                sh '''
-                docker stop jenkinswave || true
-                docker rm jenkinswave || true
-                docker run -d -p 8085:80 --name jenkinswave jenkinswave
-                '''
+                echo ' Running Docker container...'
+                bat 'docker run -d -p 8085:80 jenkinswave'
             }
-        }
-    }
-
-    post {
-        success {
-            echo '✅ CI/CD Pipeline Completed Successfully!'
         }
     }
 }
